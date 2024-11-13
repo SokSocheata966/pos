@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    header {
+        margin-top: -15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: auto;
+        background-color: #3498db;
+        height: 75px;
+        box-shadow: -5px 0 5px rgba(0, 0, 0, 0.2);
+        padding: 0 20px;
+    }
+
+    /* Add some padding and margin to the body */
+    body {
+        padding: 20px;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        /* Set the body height to full viewport height */
+    }
+
+    main {
+        flex: 1;
+        /* Allow the main content to grow and fill the remaining space */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .row {
+        flex: 1;
+        /* Allow the row to grow and fill the remaining space */
+        display: flex;
+    }
+
+    #logo {
+        padding: 20px;
+        font-style: italic;
+        font-weight: bold;
+        color: #2c3e50;
+        font-size: 28px;
+        text-decoration: none;
+    }
+
+    span {
+        font-size: 28px;
+        font-weight: bold;
+        color: #e74c3c;
+        margin-left: 5px;
+    }
+
+    #menu-icon {
+        font-size: 38px;
+        color: #e0e4e7;
+        cursor: pointer;
+        display: none;
+    }
+
+    .navbar {
+        display: flex;
+        gap: 40px;
+    }
+
+    .navbar a {
+        color: #e0e4e7;
+        text-decoration: none;
+        font-size: 26px;
+        transition: color 0.3s ease;
+    }
+
+    .navbar a:hover {
+        color: #2c3e50;
+    }
+
+    .dropdown-menu {
+        width: 100px;
+        display: none;
+        position: absolute;
+        top: 75px;
+        right: 20px;
+        background-color: #3498db;
+        padding: 10px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+    }
+
+    .dropdown-menu a {
+        display: block;
+        padding: 8px 15px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 18px;
+        border-radius: 3px;
+        transition: background-color 0.3s ease;
+    }
+
+    .dropdown-menu a:hover {
+        background-color: #2c3e50;
+    }
+
+    @media (max-width: 768px) {
+
+        .navbar {
+            display: none;
+        }
+
+        #menu-icon {
+            display: block;
+        }
+
+        .dropdown-menu {
+
+            right: 0;
+            border-radius: 0;
+        }
+
+        .dropdown-menu a {
+            text-align: center;
+        }
+    }
+
+
+
+
+    /* Style the product grid */
+    #list-product {
+        flex: 1;
+        /* Allow the product list to grow and fill the remaining space */
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+
+    #list-product .item {
+        background-color: #c4d2d5;
+        /* Light gray background */
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #list-product .item img {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+
+
+    .navbar p {
+        justify-content: space-between;
+        margin-top: 15px;
+        font-size: 18px;
+        /* Adjusted font size */
+        margin-right: 20px;
+        color: #2c3e50;
+        /* Change to a dark color */
+        transition: color 0.3s ease;
+        /* Smooth color transition on hover */
+    }
+
+    .navbar p:hover {
+        cursor: pointer;
+        color: #3498db;
+        /* Change to a shade of blue */
+    }
+
+    .bxs-user-circle {
+        font-size: 32px;
+        margin-right: 20px;
+        color: #2c3e50;
+        /* Change to a dark color */
+        transition: color 0.3s ease;
+        /* Smooth color transition on hover */
+    }
+
+    .bxs-user-circle:hover {
+        cursor: pointer;
+        color: #3498db;
+        /* Change to a shade of blue */
+    }
+
+    #tbl-report {
+        margin-top: 10px;
+        flex: 1;
+        /* Allow the table report to grow and fill the remaining space */
+        border: 1px solid black;
+        margin-left: 2px;
+        /* Add margin for better separation */
+    }
+
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #3498db;
+        text-align: center;
+    }
+
+
+    .btn-product {
+        border-radius: 5px;
+        background-color: #1d4f71;
+        /* Change to a shade of blue */
+        border: 1px solid #2980b9;
+        /* Darker shade of blue */
+        padding: 10px;
+        margin-top: 2px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-product:hover {
+        background-color: #2980b9;
+        /* Darker shade on hover */
+    }
+
+    .btn_pro {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn_pro button {
+        margin: 12px;
+        padding: 15px;
+        background-color: #3498db;
+        /* Change to a shade of blue */
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn_pro button:hover {
+        background-color: #2980b9;
+        /* Darker shade on hover */
+    }
+
+    footer {
+        background-color: white;
+        /* Change to a shade of blue */
+        height: 58px;
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    @media (max-width: 576px) {
+        #list-product {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+
+        .btn_pro button {
+            margin: -3px;
+        }
+    }
+
+    @media(max-width: 360px) {
+        .table {
+            margin-left: -8px;
+        }
+    }
+
+    @media(max-width: 344px) {
+        #list-product {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .table th,
+        .table td {
+            font-size: 15px;
+        }
+
+        .btn_pro button {
+            margin-left: -5px;
+            border-radius: none;
+        }
+
+    }
+</style>
+
+<body>
+    <header>
+        <a class="animate__animated animate__bounce" id="logo" style="color: rgb(9, 91, 91);"><b>POS<span
+                    style="color: #e0e4e7;">SYSTEM</span></b></a>
+        <nav class="navbar">
+            <a href="#">Home</a>
+            <a href="#">Contact</a>
+            <a href="#">Logout</a>
+        </nav>
+        <i id="menu-icon" class='bx bx-menu'></i>
+        <div class="dropdown-menu" id="dropdown-menu">
+            <a href="#">Home</a>
+            <a href="#">Contact</a>
+            <a href="#">Logout</a>
+        </div>
+    </header>
+    <main>
+        <div class="row">
+            <div id="list-product" class="col-8">
+                <div class="item">
+                    <img src="https://rukminim2.flixcart.com/image/300/350/xif0q/shoe/7/2/m/6-tm-12-6-trm-white-original-imagjqyzz8z9jrgf.jpeg?q=90&crop=false"
+                        alt="">
+                    <h2 style="margin-top: 10px;">Adidas</h2>
+                    <div class="price">420$</div>
+                    <button type="button" class="btn-product" id="add-item">Add Item</button>
+                </div>
+                <div class="item">
+                    <img src="https://rukminim2.flixcart.com/image/450/500/xif0q/shoe/7/z/r/8-white-leaf-8-urbanbox-white-black-original-imagvgf4cuzs2hrw.jpeg?q=90&crop=false"
+                        alt="">
+                    <h2 style="margin-top: 10px;">Converse</h2>
+                    <div class="price">375$</div>
+                    <button type="button" class="btn-product" id="add-item">Add Item</button>
+                </div>
+                <div class="item">
+                    <img src="https://rukminim1.flixcart.com/image/300/300/l12h1u80/shoe/e/m/g/10-mh-6002-white-10-m-h-footwear-white-original-imagcpy7nkanbzhf.jpeg"
+                        alt="">
+                    <h2 style="margin-top: 10px;">Nike</h2>
+                    <div class="price">325$</div>
+                    <button type="button" class="btn-product" id="add-item">Add Item</button>
+                </div>
+                <div class="item">
+                    <img src="https://atlas-content-cdn.pixelsquid.com/stock-images/new-balance-550-black-sneakers-mr6WzXA-600.jpg"
+                        alt="">
+                    <h2 style="margin-top: 10px;">New Balance</h2>
+                    <div class="price">265$</div>
+                    <button type="button" class="btn-product" id="add-item">Add Item</button>
+                </div>
+                <div class="item">
+                    <img src="https://seekindonesia.com/cdn/shop/files/4_62b58bb2-1b27-482e-9bf6-93dae9db110a_1400x.jpg?v=1686198944"
+                        alt="">
+                    <h2 style="margin-top: 10px;">Puma</h2>
+                    <div class="price">234$</div>
+                    <button type="button" class="btn-product" id="add-item">Add Item</button>
+                </div>
+                <div class="item">
+                    <img src="https://ng.jumia.is/unsafe/fit-in/300x300/filters:fill(white)/product/00/295531/1.jpg?1832"
+                        alt="">
+                    <h2 style="margin-top: 10px;">Air Jordan</h2>
+                    <div class="price">203$</div>
+                    <button type="button" class="btn-product" id="add-item">Add Item</button>
+                </div>
+                <div class="item">
+                    <img src="https://m.media-amazon.com/images/I/61oejShhPyL._SY625_.jpg" alt="">
+                    <h2 style="margin-top: 10px;">Hoka</h2>
+                    <div class="price">155$</div>
+                    <button type="button" class="btn-product" id="add-item">Add Item</button>
+                </div>
+                <div class="item">
+                    <img src="https://assets.adidas.com/images/w_600,f_auto,q_auto/4948095c2bd04bbcb5c2af1601154a02_9366/Stan_Smith_Lux_Shoes_White_HP2201_HM1.jpg"
+                        alt="">
+                    <h2 style="margin-top: 10px;">Skechers</h2>
+                    <div class="price">105$</div>
+                    <button type="button" class="btn-product" id="add-item">Add Item</button>
+                </div>
+                <div class="item">
+                    <img src="https://www.jiomart.com/images/product/500x630/rvbranphfh/bruton-running-shoes-for-men-product-images-rvbranphfh-0-202206141814.jpg"
+                        alt="">
+                    <h2 style="margin-top: 10px;">Gucci</h2>
+                    <div class="price">95$</div>
+                    <button type="button" class="btn-product" id="add-item">Add Item</button>
+                </div>
+                <div class="item">
+                    <img src="https://contents.mediadecathlon.com/p2153236/8ff54ab7687daad665741f08d7be5d37/p2153236.jpg?format=auto&quality=70&f=650x0"
+                        alt="">
+                    <h2 style="margin-top: 10px;">Superga</h2>
+                    <div class="price">80$</div>
+                    <button type="button" class="btn-product" id="add-item">Add Item</button>
+                </div>
+
+
+            </div>
+            <div class="col-4" id="tbl-report">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Qty</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Discount</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="add-tbl">
+
+                    </tbody>
+                </table>
+                <div>
+                    <a class="total-cash"
+                        style="font-size: 24px; color: #14844c; text-decoration: none;"><b>Total:</b><span
+                            class="total-result"></span></a><br>
+                    <a class="total-cash" style="font-size: 24px; color: #d82525; text-decoration: none;"><b>Total
+                            Discount:</b><span class="total-discount"></span></a><br>
+                    <a class="total-cash" style="font-size: 24px; color: #18115f; text-decoration: none;"><b>Total
+                            Payment:</b><span class="total-pay"></span></a><br>
+                    <a class="return-cash" style="font-size: 24px; color: #6a0759; text-decoration: none;"><b>Return
+                            Cash:</b><span class="total-return"></span></a>
+                </div>
+            </div>
+        </div>
+        <script>
+            const menuIcon = document.getElementById('menu-icon');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+
+            menuIcon.addEventListener('click', () => {
+                const isVisible = dropdownMenu.style.display === 'block';
+                dropdownMenu.style.display = isVisible ? 'none' : 'block';
+            });
+
+            // Optional: Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!menuIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.style.display = 'none';
+                }
+            });
+            $(document).ready(function () {
+                var idCounter = 1; // Initialize the counter
+
+                // Event handler for Add Item buttons
+                $('.btn-product').on('click', function () {
+                    // Get product details
+                    var $item = $(this).closest('.item');
+                    var id = idCounter++; // Use the current counter value and then increment it
+                    var name = $item.find('h2').text().trim();
+                    var price = parseFloat($item.find('.price').text().trim()); // Parse price as float
+
+                    // Prompt the user for the quantity
+                    var qty = prompt("Enter the quantity for item #" + id, "0");
+                    var discount = prompt("Enter value discount" + id, "0");
+                    if (qty === null) {
+                        return; // Exit if the prompt is canceled
+                    }
+
+                    qty = parseInt(qty) || 1; // Parse the quantity as an integer or default to 0
+
+                    // Append a new row to the table
+                    var totaldis = (100 - discount) / 100
+                    var total = (price * totaldis) // Calculate total for the given quantity
+                    var newRow = `
+            <tr>
+                <td>${id}</td>
+                <td>${name}</td>
+                <td>${qty}</td>
+                <td>${price}</td>
+                <td class="discount">${discount}%</td>
+                <td class="total">${total}</td>
+            </tr>
+        `;
+
+                    $('.add-tbl').append(newRow);
+                    updateTotal(); // Update total after adding a new row
+                });
+
+                // Function to update the total
+                function updateTotal() {
+                    var total = 0;
+                    var totaldis = 0;
+                    $('.add-tbl .total').each(function () {
+                        total += parseFloat($(this).text()) || 0; // Accumulate total from each row
+                    });
+                    $('.add-tbl .discount').each(function () {
+                        totaldis += parseFloat($(this).text()) || 0; // Accumulate total from each row
+                    });
+                    $('.total-result').text(total.toFixed(2) + "$");
+                    $('.total-discount').text(totaldis + "$");
+
+
+                }
+
+                // Event handler for Pay button
+                $('#btn-pay').on('click', function () {
+                    var payreturn = parseFloat(prompt("Enter the amount paid by the customer:", "0"));
+                    if (isNaN(payreturn) || payreturn < 0) {
+                        alert("Invalid input. Please enter a valid positive number.");
+                        return;
+                    }
+
+                    var total = calculateTotal();
+                    var returnCash = payreturn - total;
+
+                    if (returnCash >= 0) {
+                        alert("Total: $" + total.toFixed(2) + "\nPaid: $" + payreturn.toFixed(2) + "\nReturn Cash: $" + returnCash.toFixed(2));
+                        updatereturntotal(returnCash);
+                        $('.total-pay').text(payreturn.toFixed(2) + "$");
+                    } else {
+                        alert("Insufficient payment. Please enter a valid amount.");
+                    }
+                });
+
+                // Function to calculate the total/*
+                function calculateTotal() {
+                    var total = 0;
+                    $('.add-tbl .total').each(function () {
+                        total += parseFloat($(this).text()) || 0; // Accumulate total from each row
+                    });
+                    return total;
+                }
+
+                // Function to update the return total
+                function updatereturntotal(returnCash) {
+                    $('.total-return').text(returnCash.toFixed(2) + "$");
+                }
+                // Event handler for Remove Item button
+                $('#remove-item').on('click', function () {
+                    // Remove the last row from the table
+                    $('.add-tbl tr:last').remove();
+                    updateTotal(); // Update total after removing a row
+                });
+
+                // Event handler for Clear button
+                $('#clear-item').on('click', function () {
+                    // Clear all rows from the table
+                    $('.add-tbl').empty();
+                    updateTotal(); // Update total after clearing the table
+                    idCounter = 1; // Reset the counter when clearing the table
+                });
+                $('#print-invoie').on('click', function () {
+                    printTable('#tbl-report');
+                });
+
+                // Function to print the table
+                function printTable(selector) {
+                    var printContents = $(selector).html();
+                    var originalContents = $('body').html();
+
+                    $('body').html(printContents);
+                    window.print();
+
+                    $('body').html(originalContents);
+                }
+                $('#print-invoice').on('click', function () {
+                    printTable('#tbl-report');
+                });
+
+                // Function to print and save the table
+                function printTable(selector) {
+                    var printContents = $(selector).html();
+
+                    // Create a new HTML2PDF instance
+                    var pdf = new html2pdf(printContents);
+
+                    // Save the PDF with a filename 'receipt.pdf'
+                    pdf.save('receipt.pdf');
+
+                    // You can also open the PDF in a new tab using:
+                    // pdf.outputPdf('datauristring');
+                }
+            });
+
+        </script>
+    </main>
+
+    <footer>
+        <div class="btn_pro">
+            <button type="button" class="btn btn-secondary btn-lg" id="clear-item"
+                style="font-size: 24px; color: #5d160e;"><b>Clear</b></button>
+            <button type="button" class="btn btn-secondary btn-lg" id="remove-item"
+                style="font-size: 24px; color: rgb(40, 22, 77);"><b>Remove</b></button>
+            <button type="button" class="btn btn-secondary btn-lg" id="print-invoie"
+                style="font-size: 24px; color: #7e1156;"><b>Print</b></button>
+            <button type="button" class="btn btn-secondary btn-lg" id="btn-pay"
+                style="font-size: 24px; color: rgb(15, 84, 15);"><b>Pay</b></button>
+        </div>
+    </footer>
+</body>
+
+</html>
